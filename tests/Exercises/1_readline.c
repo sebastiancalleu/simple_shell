@@ -6,7 +6,7 @@ int input(char *s,int length);
 int main()
 {
     char *buffer;
-    size_t bufsize = 32;
+    size_t bufsize = 0;
     size_t characters;
 
     buffer = malloc(bufsize * sizeof(char));
@@ -15,11 +15,19 @@ int main()
         perror("Unable to allocate buffer");
         exit(1);
     }
-
-    printf("$ ");
-    characters = getline(&buffer,&bufsize,stdin);
-    printf("%zu characters were read.\n",characters);
-    printf("You typed: '%s'\n",buffer);
-
+	while (characters != -1)
+	{
+		printf("$ ");
+    	characters = getline(&buffer,&bufsize,stdin);
+		if (characters < 0)
+		{
+			free(buffer);
+			exit;
+		}
+		/* code here */
+		free(buffer);
+		buffer = NULL;
+	}
+		printf("\n");
     return(0);
 }
