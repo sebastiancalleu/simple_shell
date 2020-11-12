@@ -5,7 +5,7 @@
  * av: the args array.
  */
 
-int main(int ac, char *av[])
+int main(int __attribute__((unused))ac, char *av[])
 {
 	int a;
 

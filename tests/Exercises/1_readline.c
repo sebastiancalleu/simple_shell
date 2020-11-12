@@ -1,13 +1,14 @@
+#include "holberton.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-int input(char *s,int length);
+int wrdcounter(char *);
 
 int main()
 {
-    char *buffer;
+    char *buffer = NULL;
     size_t bufsize = 0;
-    size_t characters;
+    int characters;
+	int a = 0;
 
     buffer = malloc(bufsize * sizeof(char));
     if( buffer == NULL)
@@ -22,12 +23,25 @@ int main()
 		if (characters < 0)
 		{
 			free(buffer);
-			exit;
+			exit(0);
 		}
-		/* code here */
+		a = wrdcounter(buffer);
+		splitter(buffer, a);
 		free(buffer);
 		buffer = NULL;
 	}
-		printf("\n");
     return(0);
+}
+
+int wrdcounter(char *buffer)
+{
+	int a, count = 0;
+ 	if (buffer[count] != ' ')
+		count++;
+	for (a = 0; buffer[a] != '\0'; a++)
+	{
+		if (buffer[a] == ' ' && buffer[a + 1] != ' ')
+			count++;
+	}
+	return (count);
 }
