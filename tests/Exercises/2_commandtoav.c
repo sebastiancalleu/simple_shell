@@ -35,6 +35,10 @@ void splitter(char *s, int wrdc)
 	free(array);
 }
 
+/**
+ * _calloc - this function allocates memory.
+ */
+
 void *_calloc(int a, int b)
 {
 	char *str;
