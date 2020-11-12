@@ -11,16 +11,22 @@ void _strcopy(char *, char *);
  */
 void splitter(char *s, int wrdc)
 {
-	int a = 0;
-	char *token = strtok(s, " ");
+	int a = 0, b = 0;
+	char *token = strtok(s, " \n");
 	char **array;
 
 	array = _calloc((wrdc + 1), sizeof(char *));
 	for (a = 0; token != NULL; a++)
 	{
 		array[a] = _calloc((_strlen(token) + 1), sizeof(char));
+		if (array[a] == NULL)
+			{
+				while (b < a)
+					free(array[b]), b++;
+				free(array);
+			}
 		_strcopy(array[a], token);
-		token = strtok(NULL, " ");
+		token = strtok(NULL, " \n");
 	}
 	array[a] = NULL;
 	/* esto de aqui es prueba de que el array salga bien */

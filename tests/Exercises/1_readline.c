@@ -10,12 +10,6 @@ int main()
     int characters;
 	int a = 0;
 
-    buffer = malloc(bufsize * sizeof(char));
-    if( buffer == NULL)
-    {
-        perror("Unable to allocate buffer");
-        exit(1);
-    }
 	while (characters != -1)
 	{
 		printf("$ ");
