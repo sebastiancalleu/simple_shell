@@ -37,6 +37,8 @@ void splitter(char *s, int wrdc)
 
 /**
  * _calloc - this function allocates memory.
+ * @a: size.
+ * @b: data size.
  */
 
 void *_calloc(int a, int b)
