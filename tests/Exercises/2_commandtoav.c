@@ -6,6 +6,9 @@ void *_calloc(int, int);
 int _strlen(char *);
 void _strcopy(char *, char *);
 
+/**
+ * splitter - this function split a string into an array of strings.
+ */
 void splitter(char *s, int wrdc)
 {
 	int a = 0;
