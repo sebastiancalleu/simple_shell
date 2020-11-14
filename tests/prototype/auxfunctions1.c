@@ -9,7 +9,8 @@
 int wrdcounter(char *buffer)
 {
 	int a, count = 0;
- 	if (buffer[count] != ' ')
+
+	if (buffer[count] != ' ')
 		count++;
 	for (a = 0; buffer[a] != '\0'; a++)
 	{
@@ -32,7 +33,7 @@ void *_calloc(int a, int b)
 	int c;
 
 	if (a == 0 || b == 0)
-		return(NULL);
+		return (NULL);
 	str = malloc(a * b);
 	if (str == NULL)
 		return (NULL);

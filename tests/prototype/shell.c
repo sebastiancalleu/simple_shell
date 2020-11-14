@@ -5,17 +5,17 @@
  * Return: 0 if success.
  */
 
-int main()
+int main(void)
 {
-    char *buffer = NULL;
-    size_t bufsize = 0;
-    int characters;
+	char *buffer = NULL;
+	size_t bufsize = 0;
+	int characters;
 	int a = 0;
 
 	while (characters != -1)
 	{
 		printf("$ ");
-    	characters = getline(&buffer,&bufsize,stdin);
+		characters = getline(&buffer, &bufsize, stdin);
 		if (characters < 0)
 		{
 			free(buffer);
@@ -26,7 +26,7 @@ int main()
 		free(buffer);
 		buffer = NULL;
 	}
-    return(0);
+	return (0);
 }
 
 /**
@@ -46,11 +46,11 @@ void splitter(char *s, int wrdc)
 	{
 		array[a] = _calloc((_strlen(token) + 1), sizeof(char));
 		if (array[a] == NULL)
-			{
-				while (b < a)
-					free(array[b]), b++;
-				free(array);
-			}
+		{
+			while (b < a)
+				free(array[b]), b++;
+			free(array);
+		}
 		_strcopy(array[a], token);
 		token = strtok(NULL, " \n");
 	}
