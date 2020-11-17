@@ -75,6 +75,7 @@ void free_arguments(char ***arg_array, char **arguments)
 	for (; *(*arg_array + i); i++)
 	{
 		free(*(*arg_array + i));
+		*(*arg_array + i) = NULL;
 	}
 	free(*arg_array);
 	*arg_array = NULL;
@@ -174,11 +175,11 @@ void splitter(char **arguments, char ***arg_array, int wrdc)
 		perror("Error");
 		exit(1);
 	}
-	//allocate memory for strings
+	/* allocate memory for strings */
 	create_memstrings(&(*arguments), &(*new_array), wrdc);
-	//copy bytes to new memory
+	/* copy bytes to new memory */
 	copybytes_memstrings(&(*arguments), &(*new_array), wrdc);
-	// asign new array to arg_array
+	/* asign new array to arg_array */
 	*arg_array = new_array;
 }
 
@@ -208,6 +209,12 @@ void execute(char **arg_array)
 	int pid = 0;
 	int wstatus; /* store status return signal */
 
+	/* Prueba array
+    // int i = 0;
+    // for (; arg_array[i]; i++)
+    // {
+    //     printf("%s\n", arg_array[i]);
+    // }*/
 	/* define processes according to pipes */
 
 	pid = fork();
@@ -227,12 +234,12 @@ void execute(char **arg_array)
 
 		/*** get new variable with found path and
 		 * passit to execve as argument 1 ****/
-		int i = 0;
-		while (environ[i])
-		{
-			printf("%s\n", environ[i]);
-			i++;
-		}
+		/*int i = 0;
+        // while (environ[i])
+        // {
+        //     printf("%s\n", environ[i]);
+        //     i++;
+        // }*/
 		execve(arg_array[0], arg_array, environ);
 
 		/* kill child process at exit (provisional)*/
@@ -272,6 +279,7 @@ int main()
 	char **arg_array = NULL; /* stores array with arguments */
 	int error = 0;           /* handle errors for syscalls*/
 	int buffer_status = 0;   /* status of buffer, - 1 empty, 0 full*/
+	int exit = 0;
 
 	while (characters != EOF)
 	{
@@ -280,15 +288,19 @@ int main()
 		characters = getline(&arguments, &arguments_size, stdin);
 		if (characters == EOF)
 			break;
-		if (check_exit(arguments) == -1)
+		if ((exit = check_exit(arguments)) == -1)
+		{
+			free(arguments);
 			break; /* exit if typed "exit" */
+		}
 		buffer_status = get_arguments(&arguments, &arg_array);
 		if (buffer_status != -1)
+		{
 			execute(arg_array);
-		if (buffer_status != -1)
 			free_arguments(&arg_array, &arguments);
+		}
 	}
-	if (check_exit(arguments) != -1)
+	if (exit != -1)
 		error = write(STDOUT_FILENO, "\n", 1);
 	check_error(error);
 	return (0);
