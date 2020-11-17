@@ -5,6 +5,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <signal.h>
 void check_error(int);
 int _strlen(char *);
 int wrdcounter(char *);
@@ -219,11 +220,12 @@ void execute(char **arg_array)
 	if (pid == 0)
 	{
 		/* child process */
+		/**** use envieron to find paths ****/
 
 		/**** use stat to look for file susing path
 		 * handle error if file not found ****/
 
-		/*** get new variable with found path adn
+		/*** get new variable with found path and
 		 * passit to execve as argument 1 ****/
 		int i = 0;
 		while (environ[i])
@@ -232,6 +234,9 @@ void execute(char **arg_array)
 			i++;
 		}
 		execve(arg_array[0], arg_array, environ);
+
+		/* kill child process at exit (provisional)*/
+		kill(getpid(), SIGKILL);
 	}
 }
 
