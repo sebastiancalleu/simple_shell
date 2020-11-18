@@ -267,7 +267,7 @@ int get_arguments(char **arguments, char ***arg_array)
 }
 
 /**------------ EXECUTIONS */
-void execute(char **arg_array)
+void execute(char **arg_array, char *arguments)
 {
 	int pid = 0, freec = 0;
 	int wstatus; /* store status return signal */
@@ -310,8 +310,8 @@ void execute(char **arg_array)
 			{
 				for (freec = 0; arg_array[freec]; freec++)
 					free(arg_array[freec]);
-				free(arg_array[freec]);
 				free(arg_array);
+				free(arguments);
 				printf("command not found\n");
 			}
 			else
@@ -438,7 +438,7 @@ int main()
 		buffer_status = get_arguments(&arguments, &arg_array);
 		if (buffer_status != -1)
 		{
-			execute(arg_array);
+			execute(arg_array, arguments);
 			free_arguments(&arg_array, &arguments);
 		}
 	}
