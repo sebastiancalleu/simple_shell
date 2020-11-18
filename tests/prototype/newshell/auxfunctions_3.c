@@ -22,26 +22,36 @@ void check_error(int error)
  * notfoundfunc - this function procede with a not-found command.
  * @arg_array: the array of args.
  * @arguments: the arguments.
+ * @glcount: count of the getline cycles.
+ * @av: array of arguments of the shell.
  */
 
-void notfoundfunc(char **arg_array, char *arguments)
+void notfoundfunc(char **arg_array, char *arguments, int glcount, char **av)
 {
 	int a;
 
+	write(1, av[0], _strlen(av[0]));
+	write(1, ": ", 2);
+	printnum(glcount);
+	write(1, ": ", 2);
+	write(1, arg_array[0], _strlen(arg_array[0]));
+	write(1, ": ", 2);
+	write(1, "not found\n", 10);
 	for (a = 0; arg_array[a]; a++)
 		free(arg_array[a]);
 	free(arg_array);
 	free(arguments);
-	printf("command not found\n");
 }
 
 /**
  * execute - this function executes commands in child process.
  * @arg_array: the array of strings.
  * @arguments: the arguments line.
+ * @glcount: count of the getline cycles.
+ * @av: array of arguments of the shell.
  */
 
-void execute(char **arg_array, char *arguments)
+void execute(char **arg_array, char *arguments, int glcount, char **av)
 {
 	int pid = 0;
 	int wstatus; /* store status return signal */
@@ -71,7 +81,7 @@ void execute(char **arg_array, char *arguments)
 			filepath = findpath(arg_array[0]);
 			if (_strcmp(filepath, notfound) == 0)
 			{
-				notfoundfunc(arg_array, arguments);
+				notfoundfunc(arg_array, arguments, glcount, av);
 			}
 			else
 			{

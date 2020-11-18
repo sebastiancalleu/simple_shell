@@ -28,11 +28,13 @@ int get_arguments(char **, char ***);
 
 /*auxfunctions_3*/
 void check_error(int);
-void notfoundfunc(char **, char *);
-void execute(char **, char *);
+void notfoundfunc(char **, char *, int, char **);
+void execute(char **, char *, int, char **);
 char *findpath(char *);
 char *finddir(char *, char *);
 
+/*auxfunctions_4*/
+void printnum(int);
 int check_exit(char *);
 
 #endif
