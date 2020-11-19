@@ -11,7 +11,7 @@ int main(int ac, char **av)
 	int characters = 0, exit = 0, glcount = 0, i = 0;
 	char *promt_sign = "$ ";
 	size_t arguments_size = 0;
-	char *arguments = NULL;  /* stores intial buffer */
+	char *arguments = NULL;	 /* stores intial buffer */
 	char **arg_array = NULL; /* stores array with arguments */
 
 	if (ac > 1)
@@ -20,7 +20,7 @@ int main(int ac, char **av)
 		for (; i < ac - 1; i++)
 			arg_array[i] = av[i + 1];
 		arg_array[i] = NULL;
-		execute(arg_array, NULL, glcount, av);
+		execute(arg_array, arguments, glcount, av);
 		free(arg_array);
 	}
 	else
