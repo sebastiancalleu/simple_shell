@@ -6,6 +6,17 @@
  * @av: array of arguments of the shell.
  * Return: 0 if success, -1 on error.
  */
+void sigint_handler(int __attribute__((unused)) signum)
+{
+	signal(SIGINT, sigint_handler);
+}
+
+/**
+ * main - emulates a shell
+ * @ac: arguments counter.
+ * @av: array of arguments of the shell.
+ * Return: 0 if success, -1 on error.
+ */
 int main(int ac, char **av)
 {
 	int characters = 0, exit = 0, glcount = 0, i = 0;
@@ -14,6 +25,7 @@ int main(int ac, char **av)
 	char *arguments = NULL;	 /* stores intial buffer */
 	char **arg_array = NULL; /* stores array with arguments */
 
+	signal(SIGINT, sigint_handler);
 	if (ac > 1)
 	{
 		arg_array = malloc(sizeof(arg_array) * ac);
