@@ -36,5 +36,6 @@ char *finddir(char *, char *);
 /*auxfunctions_4*/
 void printnum(int);
 int check_exit(char *);
+void sigint_handler(int);
 
 #endif

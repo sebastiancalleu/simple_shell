@@ -1,16 +1,6 @@
 #include "holberton.h"
 
 /**
- * sigint_handler - prevent program from terminating
- * @signum: number of signal
- * Return: nothing
- */
-void sigint_handler(int __attribute__((unused)) signum)
-{
-	signal(SIGINT, sigint_handler);
-}
-
-/**
  * main - emulates a shell
  * @ac: arguments counter.
  * @av: array of arguments of the shell.

@@ -57,3 +57,13 @@ void printnum(int a)
 		write(1, &d, 1);
 	}
 }
+
+/**
+ * sigint_handler - prevent program from terminating
+ * @signum: number of signal
+ * Return: nothing
+ */
+void sigint_handler(int __attribute__((unused)) signum)
+{
+	signal(SIGINT, sigint_handler);
+}
