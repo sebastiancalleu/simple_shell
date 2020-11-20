@@ -1,59 +1,46 @@
 #include "holberton.h"
 
 /**
- * check_exit - this function checks for exit arg.
- * @arguments: the arguments line.
- * Return: the status.
+ * create_nonInterac_arg_array - create arg_array for non interactive mode
+ * @ac: arguments count
+ * @av: argouments values
+ * @arg_array: empty arg_array
+ * Return: nothing
  */
-int check_exit(char *arguments)
+void create_nonInterac_arg_array(int ac, char **av, char ***arg_array)
 {
-	char *exit = "exit";
 	int i = 0;
-	int bytes = 0;
-	int status = 0;
 
-	for (; arguments[i]; i++)
+	*arg_array = malloc(ac * sizeof(char *));
+	for (i = 0; i < ac - 1; i++)
 	{
-		if (arguments[i] != ' ')
-			if (arguments[i] == exit[bytes])
-				bytes++;
-	};
-	if (bytes == 4)
-		status = -1;
-	return (status);
+		(*arg_array)[i] = malloc((_strlen(av[i + 1]) + 1) * sizeof(char));
+		_strcpy((*arg_array)[i], av[i + 1]);
+	}
+	(*arg_array)[i] = NULL;
 }
 
 /**
- * printnum - this function prints a number to stdoutput
- * @a: the number to print
+ * sigint_handler - prevent program from terminating
+ * @signum: number of signal
+ * Return: nothing
  */
-
-void printnum(int a)
+void sigint_handler(int __attribute__((unused)) signum)
 {
-	int b;
-	char c, d, e;
+	signal(SIGINT, sigint_handler);
+}
 
-	if (a >= 10)
-	{
-		b = a % 10;
-		a = a / 10;
-	if (a >= 10)
-	{
-		printnum(a);
-		c = b + '0';
-		write(1, &c, 1);
-	}
+/**
+ * check_file - checks if file exist
+ * @file: file to check
+ * Return: 0 on succes, -1 on failure
+ */
+int check_file(char *file)
+{
+	struct stat st;
+
+	if (stat(file, &st) == 0)
+		return (0);
 	else
-	{
-		d = a + '0';
-		write(1, &d, 1);
-		e = b + '0';
-		write(1, &e, 1);
-	}
-	}
-	else
-	{
-		d = a + '0';
-		write(1, &d, 1);
-	}
+		return (-1);
 }

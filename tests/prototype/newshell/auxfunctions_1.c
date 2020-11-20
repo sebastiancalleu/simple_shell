@@ -6,7 +6,6 @@
  * @str2: second string.
  * Return: the concatened string.
 */
-
 char *_strcat(char *str1, char *str2)
 {
 	int a, b;
@@ -21,24 +20,6 @@ char *_strcat(char *str1, char *str2)
 	}
 	str1[a] = '\0';
 	return (str1);
-}
-/**
- * _strcmp - this function compares two strings.
- * @str1: first string.
- * @str2: second string.
- * Return: 0 if success, -1 if it fail
- */
-
-int _strcmp(char *str1, char *str2)
-{
-	int a;
-
-	for (a = 0; (str1[a] && str2[a]); a++)
-	{
-		if (str1[a] != str2[a])
-			return (-1);
-	}
-	return (0);
 }
 
 /**
@@ -76,6 +57,8 @@ int _strlen(char *str)
 /**
  * wrdcounter - this function counts the words in a string.
  * @arguments: this is the string.
+ * Description: the count of word stops when \n is found
+ *
  * Return: number of words.
  */
 int wrdcounter(char *arguments)
@@ -84,8 +67,9 @@ int wrdcounter(char *arguments)
 
 	for (i = 0; arguments[i] != '\0'; i++)
 	{
-		if ((arguments[i] != ' ' && arguments[i] != '\n') && (arguments[i + 1] == ' '
-		|| arguments[i + 1] == '\0' || arguments[i + 1] == '\n'))
+		if ((arguments[i] != ' ' && arguments[i] != '\n') &&
+		    (arguments[i + 1] == ' ' || arguments[i + 1] == '\0' ||
+		     arguments[i + 1] == '\n'))
 			count++;
 	}
 	return (count);

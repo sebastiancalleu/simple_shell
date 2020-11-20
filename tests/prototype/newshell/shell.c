@@ -1,36 +1,23 @@
 #include "holberton.h"
 
 /**
- * sigint_handler - prevent program from terminating
- * @signum: number of signal
- * Return: nothing
- */
-void sigint_handler(int __attribute__((unused)) signum)
-{
-	signal(SIGINT, sigint_handler);
-}
-
-/**
  * main - emulates a shell
- * @ac: arguments counter.
- * @av: array of arguments of the shell.
+ * @ac: arguments count
+ * @av: argouments values
  * Return: 0 if success, -1 on error.
  */
 int main(int ac, char **av)
 {
-	int characters = 0, exit = 0, glcount = 0, i = 0;
+	int characters = 0, exit = 0, glcount = 0;
+	char *promt_sign = "$ ", *arguments = NULL, **arg_array = NULL;
 	size_t arguments_size = 0;
-	char *arguments = NULL, **arg_array = NULL, *promt_sign = "$ ";
 
 	signal(SIGINT, sigint_handler);
 	if (ac > 1)
 	{
-		arg_array = malloc(sizeof(arg_array) * ac);
-		for (; i < ac - 1; i++)
-			arg_array[i] = av[i + 1];
-		arg_array[i] = NULL;
-		execute(arg_array, arguments, glcount, av);
-		free(arg_array);
+		create_nonInterac_arg_array(ac, av, &arg_array);
+		execute(&arg_array, glcount, av);
+		free_arguments(&arg_array, &arguments);
 	}
 	else
 	{
@@ -39,7 +26,8 @@ int main(int ac, char **av)
 			glcount++;
 			check_error(write(STDOUT_FILENO, promt_sign, _strlen(promt_sign)));
 			characters = getline(&arguments, &arguments_size, stdin);
-			exit = check_exit(arguments);
+			if (characters != EOF)
+				exit = check_exit(arguments);
 			if (characters == EOF || exit == -1)
 			{
 				free(arguments);
@@ -47,7 +35,7 @@ int main(int ac, char **av)
 			}
 			if (get_arguments(&arguments, &arg_array) != -1)
 			{
-				execute(arg_array, arguments, glcount, av);
+				execute(&arg_array, glcount, av);
 				free_arguments(&arg_array, &arguments);
 			}
 		}

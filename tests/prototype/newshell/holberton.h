@@ -9,12 +9,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
+#include <sys/errno.h>
 
 extern char **environ;
+extern int errno;
 
 /*auxfunctions_1*/
 char *_strcat(char *, char *);
-int _strcmp(char *, char *);
 void _strcpy(char *, char *);
 int _strlen(char *);
 int wrdcounter(char *);
@@ -27,14 +28,21 @@ void splitter(char **, char ***, int);
 int get_arguments(char **, char ***);
 
 /*auxfunctions_3*/
-void check_error(int);
-void notfoundfunc(char **, char *, int, char **);
-void execute(char **, char *, int, char **);
-char *findpath(char *);
-char *finddir(char *, char *);
+void execute(char ***, int, char **);
+int find_path(char ***);
+void create_paths(char *, char ***);
+void recursion_fill_path(char *, char ***, int, int);
+int compare_paths(char ***, char ***);
 
 /*auxfunctions_4*/
-void printnum(int);
+void create_nonInterac_arg_array(int, char **, char ***);
+void sigint_handler(int);
+int check_file(char *);
+
+/*auxfunctions_5*/
 int check_exit(char *);
+void check_error(int);
+void notfoundfunc(char **, int, char **);
+void printnum(int);
 
 #endif

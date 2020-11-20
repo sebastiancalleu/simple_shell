@@ -5,7 +5,6 @@
  * @arg_array: the array of arguments.
  * @arguments: the line of arguments.
  */
-
 void free_arguments(char ***arg_array, char **arguments)
 {
 
@@ -15,19 +14,26 @@ void free_arguments(char ***arg_array, char **arguments)
 	for (; *(*arg_array + i); i++)
 	{
 		free(*(*arg_array + i));
+		*(*arg_array + i) = NULL;
 	}
 	free(*arg_array);
 	*arg_array = NULL;
 	/* free initial buffer allocated with get line */
-	free(*arguments);
-	*arguments = NULL;
+	if (*arguments != NULL)
+	{
+		free(*arguments);
+		*arguments = NULL;
+	}
 }
 
 /**
  * create_memstrings - create memory allocation for new array elements
  * @arguments: string literal
- * @new_array: this is the new array.
+ * @new_array: array of pointers
  * @wrdc: number of words in the string
+ * Description: the array must have enough space for the strings
+ *
+ * Return: nothing
  */
 void create_memstrings(char **arguments, char **new_array, int wrdc)
 {
@@ -38,8 +44,8 @@ void create_memstrings(char **arguments, char **new_array, int wrdc)
 	{
 		if (*(*arguments + i) != ' ' && *(*arguments + i) != '\n')
 			bytes += 1;
-		if (*(*arguments + i) == ' ' || *(*arguments + i) == '\n'
-		|| *(*arguments + (i + 1)) == '\0')
+		if (*(*arguments + i) == ' ' || *(*arguments + i) == '\n' ||
+		    *(*arguments + (i + 1)) == '\0')
 		{
 			if (bytes > 0)
 			{
@@ -62,8 +68,12 @@ void create_memstrings(char **arguments, char **new_array, int wrdc)
 /**
  * copybytes_memstrings - copy bytes from string to array
  * @arguments: string literal
- * @new_array: the new array.
+ * @new_array: array of pointers
  * @wrdc: number of words in the string
+ * Description: the array must have enough space for the strings
+ * to be copied
+ *
+ * Return: nothing
  */
 void copybytes_memstrings(char **arguments, char **new_array, int wrdc)
 {
@@ -77,8 +87,8 @@ void copybytes_memstrings(char **arguments, char **new_array, int wrdc)
 			new_array[wrdc - current_wrdc][bytes] = *(*arguments + i);
 			bytes++;
 		}
-		if (*(*arguments + i) == ' ' || *(*arguments + i) == '\n'
-		|| *(*arguments + (i + 1)) == '\0')
+		if (*(*arguments + i) == ' ' || *(*arguments + i) == '\n' ||
+		    *(*arguments + (i + 1)) == '\0')
 		{
 			if (bytes > 0)
 			{
@@ -93,8 +103,10 @@ void copybytes_memstrings(char **arguments, char **new_array, int wrdc)
 /**
  * splitter - split a string into an array of strings.
  * @arguments: string to split.
+ * @arg_array: empty array of arguments
  * @wrdc: number of words in the string.
- * @arg_array: the array of strings.
+ *
+ * Return: nothing
  */
 void splitter(char **arguments, char ***arg_array, int wrdc)
 {
@@ -107,16 +119,20 @@ void splitter(char **arguments, char ***arg_array, int wrdc)
 		perror("Error");
 		exit(1);
 	}
+	/* allocate memory for strings */
 	create_memstrings(&(*arguments), &(*new_array), wrdc);
+	/* copy bytes to new memory */
 	copybytes_memstrings(&(*arguments), &(*new_array), wrdc);
+	/* asign new array to arg_array */
 	*arg_array = new_array;
 }
 
 /**
  * get_arguments - convert strings literals to an array
- * @arguments: string literal.
- * @arg_array: the array of strings.
- * Return: buffer_status.
+ * @arguments: string literal
+ * @arg_array: empty array of arguments
+ *
+ * Return: nothing
  */
 int get_arguments(char **arguments, char ***arg_array)
 {
