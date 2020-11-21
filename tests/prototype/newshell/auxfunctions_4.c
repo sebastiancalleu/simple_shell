@@ -27,6 +27,9 @@ void create_nonInterac_arg_array(int ac, char **av, char ***arg_array)
  */
 void sigint_handler(int __attribute__((unused)) signum)
 {
+	char *promt_sign = "\n$ ";
+
+	check_error(write(STDOUT_FILENO, promt_sign, _strlen(promt_sign)));
 	signal(SIGINT, sigint_handler);
 }
 
