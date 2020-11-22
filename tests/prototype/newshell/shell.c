@@ -21,26 +21,56 @@ int main(int ac, char **av)
 	}
 	else
 	{
-		while (characters != EOF)
-		{
-			glcount++;
-			check_error(write(STDOUT_FILENO, promt_sign, _strlen(promt_sign)));
-			characters = getline(&arguments, &arguments_size, stdin);
-			if (characters != EOF)
-				exit = check_exit(arguments);
-			if (characters == EOF || exit == -1)
-			{
-				free(arguments);
-				break;
-			}
-			if (get_arguments(&arguments, &arg_array) != -1)
-			{
-				execute(&arg_array, glcount, av);
-				free_arguments(&arg_array, &arguments);
-			}
-		}
-		if (exit != -1)
+		/* loop of shell */
+		shell_loop(&characters, &glcount, promt_sign, &arguments, &arguments_size,
+				   &exit, &av, &arg_array);
+		if (exit == 0 || characters == EOF)
 			check_error(write(STDOUT_FILENO, "\n", 1));
+		if (exit == -1)
+			exit = 0;
 	}
-	return (0);
+	return (exit);
+}
+
+/**
+ * shell_loop - emulates the promt, capture and execute commands
+ * @characters: number of chracters captured from stdin
+ * @glcount: counter of loops for error display
+ * @promt_sign: promt sign of the minishell
+ * @arguments: arguments captured from stdin
+ * @arguments_size: arguments size to handle getline()
+ * @exit: store exit codes
+ * @av: arguments values from non interactive mode
+ * @arg_array: multidimensional array with the arguments given to the shell
+ * Return: nothing
+ */
+void shell_loop(int *characters, int *glcount, char *promt_sign,
+				char **arguments, size_t *arguments_size, int *exit,
+				char ***av, char ***arg_array)
+{
+	while (*characters != EOF)
+	{
+		*glcount += 1;
+		check_error(write(STDOUT_FILENO, promt_sign, _strlen(promt_sign)));
+		*characters = getline(arguments, arguments_size, stdin);
+		if (*characters != EOF)
+			*exit = check_exit(*arguments);
+		if (*characters == EOF || *exit != 0)
+		{
+			if (*exit == -2 && *characters != EOF)
+			{
+				exit_illegal_command((*av)[0], *glcount, *arguments);
+				free(*arguments);
+				*arguments = NULL;
+				continue;
+			}
+			free(*arguments);
+			break;
+		}
+		if (get_arguments(arguments, arg_array) != -1)
+		{
+			execute(arg_array, *glcount, *av);
+			free_arguments(arg_array, arguments);
+		}
+	}
 }

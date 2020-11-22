@@ -14,11 +14,16 @@
 extern char **environ;
 extern int errno;
 
+/*shell*/
+void shell_loop(int *, int *, char *, char **,
+		size_t *, int *, char ***, char ***);
+
 /*auxfunctions_1*/
 char *_strcat(char *, char *);
 void _strcpy(char *, char *);
 int _strlen(char *);
 int wrdcounter(char *);
+int _atoi(char *);
 
 /*auxfunctions_2*/
 void free_arguments(char ***, char **);
@@ -38,11 +43,14 @@ int compare_paths(char ***, char ***);
 void create_nonInterac_arg_array(int, char **, char ***);
 void sigint_handler(int);
 int check_file(char *);
+void push_char(char **, char);
+void notfoundfunc(char **, int, char **);
 
 /*auxfunctions_5*/
+void check_exit_compare(char *, int *, int *);
 int check_exit(char *);
 void check_error(int);
-void notfoundfunc(char **, int, char **);
 void printnum(int);
+void exit_illegal_command(char *, int, char *);
 
 #endif

@@ -47,3 +47,52 @@ int check_file(char *file)
 	else
 		return (-1);
 }
+
+/**
+ * push_char - push a char into a string
+ * @string: string to be appended with letter
+ * @letter: letter to append
+ * Return: nothing
+ */
+void push_char(char **string, char letter)
+{
+	int temp_length = 0;
+	char *temp = NULL;
+
+	if (*string == NULL)
+	{
+		*string = malloc(2 * sizeof(char));
+		(*string)[0] = letter;
+		(*string)[1] = '\0';
+	}
+	else
+	{
+		temp_length = _strlen(*string);
+		temp = malloc((temp_length + 1) * sizeof(char));
+		_strcpy(temp, *string);
+		free(*string);
+		*string = malloc((_strlen(temp) + 2) * sizeof(char));
+		_strcpy(*string, temp);
+		(*string)[_strlen(temp)] = letter;
+		(*string)[_strlen(temp) + 1] = '\0';
+		free(temp);
+	}
+}
+
+/**
+ * notfoundfunc - this function procede with a not-found command.
+ * @arg_array: the array of args.
+ * @glcount: count of the getline cycles.
+ * @av: array of arguments of the shell.
+ */
+void notfoundfunc(char **arg_array, int glcount, char **av)
+{
+
+	write(1, av[0], _strlen(av[0]));
+	write(1, ": ", 2);
+	printnum(glcount);
+	write(1, ": ", 2);
+	write(1, arg_array[0], _strlen(arg_array[0]));
+	write(1, ": ", 2);
+	write(1, "not found\n", 10);
+}
