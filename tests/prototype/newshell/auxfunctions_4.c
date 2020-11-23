@@ -36,16 +36,21 @@ void sigint_handler(int __attribute__((unused)) signum)
 /**
  * check_file - checks if file exist
  * @file: file to check
- * Return: 0 on succes, -1 on failure
+ * Return: 0 on succes, -1 on failure, -2 if file exits
+ * but has not executable instruction
  */
 int check_file(char *file)
 {
 	struct stat st;
 
 	if (stat(file, &st) == 0)
-		return (0);
-	else
-		return (-1);
+	{
+		if (file[0] == '.' || file[1] == '/')
+			return (0);
+		else
+			return (-2);
+	}
+	return (-1);
 }
 
 /**

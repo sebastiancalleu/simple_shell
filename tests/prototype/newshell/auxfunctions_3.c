@@ -11,10 +11,20 @@ void execute(char ***arg_array, int glcount, char **av)
 {
 	int pid = 0;
 	int wstatus; /* store status return signal */
+	int file_status = 0;
 
 	/* check if file is found in given directory */
-	if (check_file(*(arg_array)[0]) != 0)
+	file_status = check_file(*(arg_array)[0]);
+	if (file_status != 0)
 	{
+		/*if file exist but has not executable command*/
+		if (file_status == -2)
+		{
+			/* error aoutput */
+			errno = 2;
+			notfoundfunc(*(arg_array), glcount, av);
+			return;
+		}
 		/* check if file is found in path */
 		if (find_path(arg_array) == -1)
 		{
