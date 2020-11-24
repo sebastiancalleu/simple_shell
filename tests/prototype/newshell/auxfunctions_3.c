@@ -16,7 +16,6 @@ void execute(char ***arg_array, int glcount, char **av)
 	if (stringcomp(*arg_array[0], "env") == 1)
 	{
 		envprint();
-		write(1, "\n", 1);
 	}
 	else
 	{
