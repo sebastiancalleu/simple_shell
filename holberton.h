@@ -11,6 +11,7 @@
 #include <signal.h>
 #include <sys/errno.h>
 
+/*global_vars*/
 extern char **environ;
 extern int errno;
 
