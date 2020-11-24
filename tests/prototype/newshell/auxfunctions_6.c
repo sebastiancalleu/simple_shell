@@ -23,10 +23,12 @@ int stringcomp(char *str1, char *str2)
 {
 	int a;
 
-	for (a = 0; str1[a], str2[a]; a++)
+	for (a = 0; str1[a]; a++)
 	{
 		if (str1[a] != str2[a])
 			return (0);
 	}
+		if (str1[a] != str2[a])
+			return (0);
 	return (1);
 }

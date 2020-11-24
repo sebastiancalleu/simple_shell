@@ -13,7 +13,6 @@ void execute(char ***arg_array, int glcount, char **av)
 	int wstatus; /* store status return signal */
 	int file_status = 0;
 
-	printf("%s\n", *arg_array[0]);
 	if (stringcomp(*arg_array[0], "env") == 1)
 	{
 		envprint();
