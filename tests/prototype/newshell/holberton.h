@@ -53,4 +53,8 @@ void check_error(int);
 void printnum(int);
 void exit_illegal_command(char *, int, char *);
 
+/*auxfuntions_6*/
+void envprint(void);
+int stringcomp(char *, char *);
+
 #endif

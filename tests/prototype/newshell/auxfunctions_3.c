@@ -13,39 +13,48 @@ void execute(char ***arg_array, int glcount, char **av)
 	int wstatus; /* store status return signal */
 	int file_status = 0;
 
-	/* check if file is found in given directory */
-	file_status = check_file(*(arg_array)[0]);
-	if (file_status != 0)
+	printf("%s\n", *arg_array[0]);
+	if (stringcomp(*arg_array[0], "env") == 1)
 	{
-		/*if file exist but has not executable command*/
-		if (file_status == -2)
-		{
-			/* error aoutput */
-			errno = 2;
-			notfoundfunc(*(arg_array), glcount, av);
-			return;
-		}
-		/* check if file is found in path */
-		if (find_path(arg_array) == -1)
-		{
-			/* error aoutput */
-			errno = 2;
-			notfoundfunc(*(arg_array), glcount, av);
-			return;
-		}
+		envprint();
 	}
-	pid = fork();
-	if (pid == -1)
-		check_error(pid);
-	if (pid != 0)
+	else
 	{
-		wait(&wstatus);
-		if (WIFEXITED(wstatus))
-			WEXITSTATUS(wstatus);
-	}
-	if (pid == 0)
-	{
-		execve((*arg_array)[0], *arg_array, environ);
+
+		/* check if file is found in given directory */
+		file_status = check_file(*(arg_array)[0]);
+		if (file_status != 0)
+		{
+			/*if file exist but has not executable command*/
+			if (file_status == -2)
+			{
+				/* error aoutput */
+				errno = 2;
+				notfoundfunc(*(arg_array), glcount, av);
+				return;
+			}
+			/* check if file is found in path */
+			if (find_path(arg_array) == -1)
+			{
+				/* error aoutput */
+				errno = 2;
+				notfoundfunc(*(arg_array), glcount, av);
+				return;
+			}
+		}
+		pid = fork();
+		if (pid == -1)
+			check_error(pid);
+		if (pid != 0)
+		{
+			wait(&wstatus);
+			if (WIFEXITED(wstatus))
+				WEXITSTATUS(wstatus);
+		}
+		if (pid == 0)
+		{
+			execve((*arg_array)[0], *arg_array, environ);
+		}
 	}
 }
 
