@@ -22,13 +22,11 @@ void execute(char ***arg_array, int glcount, char **av)
 		{
 			if (file_status == -2)
 			{
-				errno = 2;
 				notfoundfunc(*(arg_array), glcount, av);
 				return;
 			}
 			if (find_path(arg_array) == -1)
 			{
-				errno = 2;
 				notfoundfunc(*(arg_array), glcount, av);
 				return;
 			}

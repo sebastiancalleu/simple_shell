@@ -13,11 +13,10 @@
 
 /*global_vars*/
 extern char **environ;
-extern int errno;
 
 /*shell*/
 void shell_loop(int *, int *, char *, char **,
-		size_t *, int *, char ***, char ***);
+					 size_t *, int *, char ***, char ***);
 
 /*auxfunctions_1*/
 char *_strcat(char *, char *);
