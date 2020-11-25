@@ -102,20 +102,20 @@ void printnum(int a)
 		{
 			printnum(a);
 			c = b + '0';
-			write(STDOUT_FILENO, &c, 1);
+			write(1, &c, 1);
 		}
 		else
 		{
 			d = a + '0';
-			write(STDOUT_FILENO, &d, 1);
+			write(1, &d, 1);
 			e = b + '0';
-			write(STDOUT_FILENO, &e, 1);
+			write(1, &e, 1);
 		}
 	}
 	else
 	{
 		d = a + '0';
-		write(STDOUT_FILENO, &d, 1);
+		write(1, &d, 1);
 	}
 }
 
@@ -132,11 +132,11 @@ void exit_illegal_command(char *av, int count, char *arguments)
 	char *exit = "exit";
 	char *letter = NULL;
 
-	write(STDOUT_FILENO, av, _strlen(av));
-	write(STDOUT_FILENO, ": ", 2);
+	write(1, av, _strlen(av));
+	write(1, ": ", 2);
 	printnum(count);
-	write(STDOUT_FILENO, ": exit: ", 8);
-	write(STDOUT_FILENO, "Illegal number: ", 16);
+	write(1, ": exit: ", 8);
+	write(1, "Illegal number: ", 16);
 
 	for (i = 0; arguments[i]; i++, offset++)
 	{
@@ -158,7 +158,7 @@ void exit_illegal_command(char *av, int count, char *arguments)
 			letter = malloc(2 * sizeof(char));
 			letter[0] = arguments[i + offset];
 			letter[1] = '\0';
-			write(STDOUT_FILENO, letter, 1);
+			write(1, letter, 1);
 			free(letter);
 		}
 	}

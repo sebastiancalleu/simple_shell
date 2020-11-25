@@ -10,8 +10,8 @@ void envprint(char **environ)
 
 	for (a = 0; environ[a] != NULL; a++)
 	{
-		write(STDOUT_FILENO, environ[a], _strlen(environ[a]));
-		write(STDOUT_FILENO, "\n", 1);
+		write(1, environ[a], _strlen(environ[a]));
+		write(1, "\n", 1);
 	}
 }
 
