@@ -16,7 +16,7 @@ int main(int ac, char **av, char **environ)
 	if (ac > 1)
 	{
 		create_nonInterac_arg_array(ac, av, &arg_array);
-		execute(&arg_array, glcount, av, environ);
+		run_command(&arg_array, glcount, av, environ);
 		free_arguments(&arg_array, &arguments);
 	}
 	else
@@ -69,7 +69,7 @@ void shell_loop(int *characters, int *glcount, char *promt_sign,
 		}
 		if (get_arguments(arguments, arg_array) != -1)
 		{
-			execute(arg_array, *glcount, *av, env);
+			run_command(arg_array, *glcount, *av, env);
 			free_arguments(arg_array, arguments);
 		}
 	}

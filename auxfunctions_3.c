@@ -1,13 +1,13 @@
 #include "holberton.h"
 
 /**
- * execute - this function executes commands in child process.
+ * run_command - this function executes commands in child process.
  * @arg_array: the array of strings.
  * @glcount: count of the getline cycles.
  * @av: array of arguments of the shell.
  */
 
-void execute(char ***arg_array, int glcount, char **av, char **environ)
+void run_command(char ***arg_array, int glcount, char **av, char **environ)
 {
 	int pid = 0;
 	int wstatus; /* store status return signal */

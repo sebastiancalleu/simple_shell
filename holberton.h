@@ -30,7 +30,7 @@ void splitter(char **, char ***, int);
 int get_arguments(char **, char ***);
 
 /*auxfunctions_3*/
-void execute(char ***, int, char **, char **);
+void run_command(char ***, int, char **, char **);
 int find_path(char ***, char **);
 void create_paths(char *, char ***);
 void recursion_fill_path(char *, char ***, int, int);
