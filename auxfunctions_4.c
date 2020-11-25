@@ -42,16 +42,31 @@ void sigint_handler(int __attribute__((unused)) signum)
 int check_file(char *file)
 {
 	struct stat st;
+	int _return = -1;
+	int i = 0;
+	int bytes_exe = 0;
+	int bytes_letters = 0;
 
-	if (stat(file, &st) == 0 && file[0] != '/')
+	if (stat(file, &st) == 0)
 	{
-
-		if (file[0] == '.' || file[1] == '/')
-			return (0);
-		else
-			return (-2);
+		for (i = 0; file[i]; i++)
+		{
+			if (file[i] == '.' || file[i] == '/')
+				bytes_exe++;
+			if (file[i] != '.' && file[i] != '/')
+				bytes_letters++;
+		}
+		if (bytes_exe > 0 && bytes_letters == 0)
+			_return = -2;
+		if (bytes_exe == 0 && bytes_letters > 1)
+			_return = -2;
+		if (bytes_exe == 2 && bytes_letters > 1)
+		{
+			if ((file[0] != '.' && file[1] != '/') && file[0] != '/')
+				_return = -2;
+		}
 	}
-	return (-1);
+	return (_return);
 }
 
 /**
