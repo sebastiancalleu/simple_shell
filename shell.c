@@ -52,9 +52,10 @@ void shell_loop(int *characters, int *glcount, char *promt_sign,
 	while (*characters != EOF)
 	{
 		*glcount += 1;
+
+		write(STDOUT_FILENO, promt_sign, _strlen(promt_sign));
 		if (isatty(STDIN_FILENO) == 1)
-			write(STDOUT_FILENO, promt_sign, _strlen(promt_sign));
-		*characters = getline(arguments, arguments_size, stdin);
+			*characters = getline(arguments, arguments_size, stdin);
 		if (*characters != EOF)
 			*exit = check_exit(*arguments);
 		if (*characters == EOF || *exit != 0)
