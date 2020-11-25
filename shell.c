@@ -52,35 +52,27 @@ void shell_loop(int *characters, int *glcount, char *promt_sign,
 	while (*characters != EOF)
 	{
 		*glcount += 1;
-
-		write(1, promt_sign, _strlen(promt_sign));
 		if (isatty(STDIN_FILENO) == 1)
+			write(1, promt_sign, _strlen(promt_sign));
+		*characters = getline(arguments, arguments_size, stdin);
+		if (*characters != EOF)
+			*exit = check_exit(*arguments);
+		if (*characters == EOF || *exit != 0)
 		{
-			*characters = getline(arguments, arguments_size, stdin);
-			if (*characters != EOF)
-				*exit = check_exit(*arguments);
-			if (*characters == EOF || *exit != 0)
+			if (*exit == -2 && *characters != EOF)
 			{
-				if (*exit == -2 && *characters != EOF)
-				{
-					exit_illegal_command((*av)[0], *glcount, *arguments);
-					free(*arguments);
-					*arguments = NULL;
-					continue;
-				}
+				exit_illegal_command((*av)[0], *glcount, *arguments);
 				free(*arguments);
-				break;
+				*arguments = NULL;
+				continue;
 			}
-			if (get_arguments(arguments, arg_array) != -1)
-			{
-				run_command(arg_array, *glcount, *av, env);
-				free_arguments(arg_array, arguments);
-			}
+			free(*arguments);
+			break;
 		}
-		else
+		if (get_arguments(arguments, arg_array) != -1)
 		{
-			perror("Error");
-			*characters = EOF;
+			run_command(arg_array, *glcount, *av, env);
+			free_arguments(arg_array, arguments);
 		}
 	}
 }
