@@ -1,37 +1,37 @@
 #include "holberton.h"
 
 /**
- * envprint - this function prints the environment.
+ * _strcmp - this function compares two strings.
+ * @str1: first string.
+ * @str2: second string.
+ * Return: 0 if success, -1 if it fail
  */
 
-void envprint(char **environ)
+int _strcmp(char *str1, char *str2)
 {
 	int a;
 
-	for (a = 0; environ[a] != NULL; a++)
+	for (a = 0; (str1[a] && str2[a]); a++)
 	{
-		write(1, environ[a], _strlen(environ[a]));
-		write(1, "\n", 1);
+		if (str1[a] != str2[a])
+			return (-1);
 	}
+	return (0);
 }
 
 /**
- * stringcomp - this function compares two strings.
- * @str1: the first string.
- * @str2: the second string.
- * Return: 1 if the strings are the same, 0 if not.
+ * _strcpy - this function copies a string to other string.
+ * @dest: the destination string.
+ * @src: the source string.
  */
 
-int stringcomp(char *str1, char *str2)
+void _strcpy(char *dest, char *src)
 {
 	int a;
 
-	for (a = 0; str1[a]; a++)
+	for (a = 0; src[a] != '\0'; a++)
 	{
-		if (str1[a] != str2[a])
-			return (0);
+		dest[a] = src[a];
 	}
-	if (str1[a] != str2[a])
-		return (0);
-	return (1);
+	dest[a] = '\0';
 }
