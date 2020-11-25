@@ -4,10 +4,9 @@
  * envprint - this function prints the environment.
  */
 
-void envprint(void)
+void envprint(char **environ)
 {
 	int a;
-	extern char **environ;
 
 	for (a = 0; environ[a] != NULL; a++)
 	{

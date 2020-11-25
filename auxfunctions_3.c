@@ -7,15 +7,14 @@
  * @av: array of arguments of the shell.
  */
 
-void execute(char ***arg_array, int glcount, char **av)
+void execute(char ***arg_array, int glcount, char **av, char **environ)
 {
-	extern char **environ;
 	int pid = 0;
 	int wstatus; /* store status return signal */
 	int file_status = 0;
 
 	if (stringcomp(*arg_array[0], "env") == 1)
-		envprint();
+		envprint(environ);
 	else
 	{
 		file_status = check_file(*(arg_array)[0]);
@@ -26,7 +25,7 @@ void execute(char ***arg_array, int glcount, char **av)
 				notfoundfunc(*(arg_array), glcount, av);
 				return;
 			}
-			if (find_path(arg_array) == -1)
+			if (find_path(arg_array, environ) == -1)
 			{
 				notfoundfunc(*(arg_array), glcount, av);
 				return;
@@ -53,9 +52,8 @@ void execute(char ***arg_array, int glcount, char **av)
  * @arg_array: this is the command.
  * Return: 0 on succes, -1 on failure.
  */
-int find_path(char ***arg_array)
+int find_path(char ***arg_array, char **environ)
 {
-	extern char **environ;
 	char **paths = NULL;
 	int i = 0;
 	struct stat st;

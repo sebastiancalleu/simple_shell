@@ -13,7 +13,7 @@
 
 /*shell*/
 void shell_loop(int *, int *, char *, char **,
-					 size_t *, int *, char ***, char ***);
+					 size_t *, int *, char ***, char ***, char **);
 
 /*auxfunctions_1*/
 char *_strcat(char *, char *);
@@ -30,8 +30,8 @@ void splitter(char **, char ***, int);
 int get_arguments(char **, char ***);
 
 /*auxfunctions_3*/
-void execute(char ***, int, char **);
-int find_path(char ***);
+void execute(char ***, int, char **, char **);
+int find_path(char ***, char **);
 void create_paths(char *, char ***);
 void recursion_fill_path(char *, char ***, int, int);
 int compare_paths(char ***, char ***);
@@ -51,7 +51,7 @@ void printnum(int);
 void exit_illegal_command(char *, int, char *);
 
 /*auxfuntions_6*/
-void envprint(void);
+void envprint(char **environ);
 int stringcomp(char *, char *);
 
 #endif
