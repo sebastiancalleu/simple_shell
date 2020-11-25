@@ -8,8 +8,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <signal.h>
-#include <sys/errno.h>
+
 
 /*global_vars*/
 extern char **environ;
