@@ -51,7 +51,7 @@ void printnum(int);
 void exit_illegal_command(char *, int, char *);
 
 /*auxfuntions_6*/
-void envprint(char **environ);
+void envprint(char **);
 int stringcomp(char *, char *);
 
 #endif
