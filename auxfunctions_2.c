@@ -45,7 +45,7 @@ void create_memstrings(char **arguments, char **new_array, int wrdc)
 		if (*(*arguments + i) != ' ' && *(*arguments + i) != '\n')
 			bytes += 1;
 		if (*(*arguments + i) == ' ' || *(*arguments + i) == '\n' ||
-		    *(*arguments + (i + 1)) == '\0')
+			*(*arguments + (i + 1)) == '\0')
 		{
 			if (bytes > 0)
 			{
@@ -88,7 +88,7 @@ void copybytes_memstrings(char **arguments, char **new_array, int wrdc)
 			bytes++;
 		}
 		if (*(*arguments + i) == ' ' || *(*arguments + i) == '\n' ||
-		    *(*arguments + (i + 1)) == '\0')
+			*(*arguments + (i + 1)) == '\0')
 		{
 			if (bytes > 0)
 			{
