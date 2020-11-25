@@ -27,7 +27,8 @@ int main(int ac, char **av)
 		{
 
 			write(STDOUT_FILENO, "$ ", 2);
-			characters = getline(&buffer, &bufsize, stdin);
+			if (isatty(STDIN_FILENO) == 1)
+				characters = getline(&buffer, &bufsize, stdin);
 			if (characters < 0)
 			{
 				free(buffer);
