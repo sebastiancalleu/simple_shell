@@ -1,0 +1,66 @@
+.TH "SHELLTASTIC" 1 "25 November 2020" "GNU Shelltastic 0.1" "General Commands Manual "
+.SH NAME
+shelltastic
+.SH SYNOPSIS
+.B ./hsh
+.SH DESCRIPTION
+\fBShelltastic\fR is an sh-compatible command language interpreter that executes commands read from the standard input and can be used interactively.
+.SH INVOCATION
+An \fIinteractive\fR shell is one started without non-option arguments like this './hsh'. A \fInon interactive\fR shell is one started by sending commands to the standard input using pipelines like this 'echo "ls -l" | ./hsh'.
+.SH DEFINITIONS
+The following definitions are used throughout the rest of this document.
+.RS
+.IP \fBword\fP
+\- A sequence of characters considered as a single unit by the shell. Also known as a token.
+.IP \fBname\fP
+\- A word consisting only of alphanumeric characters and underscores, and beginning with an alphabetic character or an underscore. Also referred to as an identifier.
+.IP \fBcontrol operator\P
+\- A token that performs a control function. It is one of the following symbols ; <newline>
+.RE
+.SH SHELL GRAMMAR
+.B \fISimple Commands:\fB
+A simple command is a sequence of optional variable assignments followed by blank-separated words, and terminated by a control operator (EOF or \n). The first word specifies the command to be executed, and is passed as argument zero. The remaining words are passed as arguments to the invoked command.
+
+The return value of a simple command is its exit status.
+.SH COMMAND EXECUTION
+After a command has been split into words, if it results in a simple command and an optional list of arguments, the following actions are taken.
+
+The shell searches for it in the list of shell builtins. If a match is found, that builtin is invoked.
+
+If the command it is not a built-in and name contains no slashes, the shell attempts to locate it. If there exists a shell function by that name, that function is invoked.
+
+If the name is neither a shell function nor a builtin, and contains no slashes, shelley searches each element of the PATH for a directory containing an executable file by that name.
+
+If that function is not defined, the shell prints an error message.
+
+.SH EXIT STATUS
+The exit status of an executed command is the value returned by the waitpid system call or equivalent function. Exit statuses fall between 0 and 255.
+
+Under certain circumstances, the shell will use special values to indicate specific failure modes.
+
+Shell builtin commands return a status of 0 (true) if successful, and non-zero (false) if an error occurs while they execute.
+
+Shelltastic itself returns the exit status of the last command executed, unless a syntax error occurs, in which case it exits with a non-zero value. See also the exit builtin command below.
+
+.SH SIGNALS
+SIGINT is caught and handled (so that the wait builtin is interruptible).
+
+.SH PROMPTING
+When executing interactively, shelltastic displays the primary prompt when it is ready to read a command.
+
+.SH SHELL BUILTIN COMMANDS
+[\fBcommand\fP] [\fIarguments\fP]
+
+.RS
+.IP "\fBexit\fP [\fIstatus\fP]"
+\- Cause the shell to exit with a status of \fIstatus\fP. If status is omitted, the exit status is that of the last command executed. A trap on EXIT is executed before the shell terminates.
+.IP "\fBenv\fP"
+\- Displays all the environmental variables.
+.RE
+
+.SH SEE ALSO
+\fIREADME.md\fP - https://github.com/sebastiancalleu/simple_shell
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Sebastián Calle & Andrés Aristizábal.
