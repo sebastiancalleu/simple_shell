@@ -44,13 +44,13 @@ int check_exit(char *arguments)
 			if (arguments[i + offset] != ' ')
 			{
 				if ((arguments[i + offset] >= '0' && arguments[i + offset] <= '9') &&
-				    numFound_control == -1)
+					numFound_control == -1)
 				{
 					bytes++;
 					push_char(&result, arguments[i + offset]);
 					status = _atoi(result);
 					if (arguments[(i + offset) + 1] < '0' ||
-					    arguments[(i + offset) + 1] > '9')
+						arguments[(i + offset) + 1] > '9')
 						numFound_control = 0;
 				}
 				else if (status == 0)
@@ -102,20 +102,20 @@ void printnum(int a)
 		{
 			printnum(a);
 			c = b + '0';
-			write(1, &c, 1);
+			write(STDOUT_FILENO, &c, 1);
 		}
 		else
 		{
 			d = a + '0';
-			write(1, &d, 1);
+			write(STDOUT_FILENO, &d, 1);
 			e = b + '0';
-			write(1, &e, 1);
+			write(STDOUT_FILENO, &e, 1);
 		}
 	}
 	else
 	{
 		d = a + '0';
-		write(1, &d, 1);
+		write(STDOUT_FILENO, &d, 1);
 	}
 }
 

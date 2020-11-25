@@ -109,11 +109,11 @@ void push_char(char **string, char letter)
 void notfoundfunc(char **arg_array, int glcount, char **av)
 {
 
-	write(1, av[0], _strlen(av[0]));
-	write(1, ": ", 2);
+	write(STDOUT_FILENO, av[0], _strlen(av[0]));
+	write(STDOUT_FILENO, ": ", 2);
 	printnum(glcount);
-	write(1, ": ", 2);
-	write(1, arg_array[0], _strlen(arg_array[0]));
-	write(1, ": ", 2);
-	write(1, "not found\n", 10);
+	write(STDOUT_FILENO, ": ", 2);
+	write(STDOUT_FILENO, arg_array[0], _strlen(arg_array[0]));
+	write(STDOUT_FILENO, ": ", 2);
+	write(STDOUT_FILENO, "not found\n", 10);
 }
