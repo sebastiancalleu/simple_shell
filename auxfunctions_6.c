@@ -7,6 +7,7 @@
 void envprint(void)
 {
 	int a;
+	extern char **environ;
 
 	for (a = 0; environ[a] != NULL; a++)
 	{

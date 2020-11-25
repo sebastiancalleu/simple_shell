@@ -9,6 +9,7 @@
 
 void execute(char ***arg_array, int glcount, char **av)
 {
+	extern char **environ;
 	int pid = 0;
 	int wstatus; /* store status return signal */
 	int file_status = 0;
@@ -54,6 +55,7 @@ void execute(char ***arg_array, int glcount, char **av)
  */
 int find_path(char ***arg_array)
 {
+	extern char **environ;
 	char **paths = NULL;
 	int i = 0;
 	struct stat st;

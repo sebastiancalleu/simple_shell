@@ -68,8 +68,8 @@ int wrdcounter(char *arguments)
 	for (i = 0; arguments[i] != '\0'; i++)
 	{
 		if ((arguments[i] != ' ' && arguments[i] != '\n') &&
-		    (arguments[i + 1] == ' ' || arguments[i + 1] == '\0' ||
-		     arguments[i + 1] == '\n'))
+			(arguments[i + 1] == ' ' || arguments[i + 1] == '\0' ||
+			 arguments[i + 1] == '\n'))
 			count++;
 	}
 	return (count);

@@ -11,10 +11,6 @@
 #include <signal.h>
 #include <sys/errno.h>
 
-
-/*global_vars*/
-extern char **environ;
-
 /*shell*/
 void shell_loop(int *, int *, char *, char **,
 					 size_t *, int *, char ***, char ***);
