@@ -43,8 +43,9 @@ int check_file(char *file)
 {
 	struct stat st;
 
-	if (stat(file, &st) == 0)
+	if (stat(file, &st) == 0 && file[0] != '/')
 	{
+
 		if (file[0] == '.' || file[1] == '/')
 			return (0);
 		else
