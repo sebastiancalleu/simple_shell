@@ -51,7 +51,10 @@ void shell_loop(int *characters, int *glcount, char *promt_sign,
 	while (*characters != EOF)
 	{
 		*glcount += 1;
-		check_error(write(STDOUT_FILENO, promt_sign, _strlen(promt_sign)));
+		if (isatty(STDIN_FILENO) == 1)
+			check_error(write(STDOUT_FILENO, promt_sign, _strlen(promt_sign)));
+		else
+			perror("Error");
 		*characters = getline(arguments, arguments_size, stdin);
 		if (*characters != EOF)
 			*exit = check_exit(*arguments);
