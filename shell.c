@@ -25,8 +25,8 @@ int main(int ac, char **av)
 	{
 		while (characters != -1)
 		{
-			if (isatty(STDIN_FILENO) == 1)
-				write(1, "$ ", 2);
+
+			write(STDOUT_FILENO, "$ ", 2);
 			characters = getline(&buffer, &bufsize, stdin);
 			if (characters < 0)
 			{
