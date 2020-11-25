@@ -37,8 +37,6 @@ void execute(char ***arg_array, int glcount, char **av)
 		if (pid != 0)
 		{
 			wait(&wstatus);
-			if (WIFEXITED(wstatus))
-				WEXITSTATUS(wstatus);
 		}
 		if (pid == 0)
 		{
