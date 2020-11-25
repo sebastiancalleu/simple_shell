@@ -22,8 +22,10 @@ int main(int ac, char **av, char **environ)
 	else
 	{
 		/* loop of shell */
-		shell_loop(&characters, &glcount, promt_sign, &arguments, &arguments_size,
-				   &exit, &av, &arg_array, environ);
+		if (isatty(STDIN_FILENO) == 1)
+			shell_loop(&characters, &glcount, promt_sign, &arguments, &arguments_size,
+					   &exit, &av, &arg_array, environ);
+
 		if (exit == 0 || characters == EOF)
 			check_error(write(STDOUT_FILENO, "\n", 1));
 		if (exit == -1)
@@ -51,10 +53,7 @@ void shell_loop(int *characters, int *glcount, char *promt_sign,
 	while (*characters != EOF)
 	{
 		*glcount += 1;
-		if (isatty(STDIN_FILENO) == 1)
-			check_error(write(STDOUT_FILENO, promt_sign, _strlen(promt_sign)));
-		else
-			perror("Error");
+		check_error(write(STDOUT_FILENO, promt_sign, _strlen(promt_sign)));
 		*characters = getline(arguments, arguments_size, stdin);
 		if (*characters != EOF)
 			*exit = check_exit(*arguments);
