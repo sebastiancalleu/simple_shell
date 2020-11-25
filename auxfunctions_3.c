@@ -14,9 +14,7 @@ void execute(char ***arg_array, int glcount, char **av)
 	int file_status = 0;
 
 	if (stringcomp(*arg_array[0], "env") == 1)
-	{
 		envprint();
-	}
 	else
 	{
 		file_status = check_file(*(arg_array)[0]);
@@ -116,7 +114,7 @@ void create_paths(char *the_path, char ***paths)
  * Return: nothing
  */
 void recursion_fill_path(char *the_path, char ***paths,
-			 int offset_path, int current_paths_count)
+						 int offset_path, int current_paths_count)
 {
 	int i = 0;
 	int letters_count = 0;
@@ -129,7 +127,7 @@ void recursion_fill_path(char *the_path, char ***paths,
 	for (; the_path[i + offset_path]; i++, letters_count++)
 	{
 		if (the_path[i + offset_path] == ':' ||
-		    the_path[(i + offset_path) + 1] == '\0')
+			the_path[(i + offset_path) + 1] == '\0')
 		{
 			if (the_path[(i + offset_path) + 1] == '\0')
 				(*paths)[current_paths_count] = malloc(sizeof(char) * (letters_count + 2));
@@ -138,11 +136,11 @@ void recursion_fill_path(char *the_path, char ***paths,
 			letters_count_offset = letters_count;
 			for (; letters_count > 0; letters_count--, j++)
 				(*paths)[current_paths_count][j] =
-				    the_path[(i + offset_path) - letters_count];
+					the_path[(i + offset_path) - letters_count];
 			if (the_path[(i + offset_path) + 1] == '\0')
 			{
 				(*paths)[current_paths_count][j] =
-				    the_path[(i + offset_path) - letters_count];
+					the_path[(i + offset_path) - letters_count];
 				(*paths)[current_paths_count][j + 1] = '\0';
 			}
 			else
