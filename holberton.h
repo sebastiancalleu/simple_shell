@@ -31,6 +31,7 @@ char *_strcat(char *, char *);
 int _strlen(char *);
 void notcommandfound(char **, char **, int);
 void exitshell(char **, char *, int);
+int _atoi(char *);
 
 /*auxfunctions_5*/
 void freearray(char **);
