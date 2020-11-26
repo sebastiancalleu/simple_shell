@@ -39,10 +39,14 @@ void check_error(int error)
 
 void envprint(void)
 {
-	int a;
+	int a, b;
 
-	for (a = 0; environ[a] != NULL; a++)
+	while (environ[a])
 	{
-		write(STDOUT_FILENO, environ[a], _strlen(environ[a]));
+		for (b = 0; environ[a][b]; b++)
+		;
+			write(STDOUT_FILENO, environ[a], _strlen(environ[a]));
+			write(STDOUT_FILENO, "\n", 1);
+		a++;
 	}
 }
