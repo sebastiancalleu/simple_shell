@@ -4,6 +4,8 @@
  * splitter - this function split a string into an array of strings.
  * @str: string to split.
  * @wrdc: number of words in the string.
+ * @av: arguments array.
+ * @count: cycle count.
  */
 
 void splitter(char *str, int wrdc, char **av, int count)
