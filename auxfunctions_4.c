@@ -19,6 +19,8 @@ int _strlen(char *str)
 /**
  * notcommandfound - this function procede with a not-found command.
  * @arg_array: the array of args.
+ * @av: arguments array.
+ * @count: cycle count.
  */
 void notcommandfound(char **arg_array, char **av, int count)
 {
@@ -35,6 +37,13 @@ void notcommandfound(char **arg_array, char **av, int count)
 		free(arg_array[freec]);
 	free(arg_array);
 }
+
+/**
+ * exitshell - this function ends the shell.
+ * @array: arg array.
+ * @str: line with the args.
+ * @exitstate: exit code.
+ */
 
 void exitshell(char **array, char *str, int exitstate)
 {
