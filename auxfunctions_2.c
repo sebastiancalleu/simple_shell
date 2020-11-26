@@ -1,109 +1,149 @@
 #include "holberton.h"
 
-
 /**
- * execute - this function execute commands.
- * @arg_array: the strings of arrays.
- * @str: the buffer line.
- * @av: arguments array.
- * @count: cycle count.
+ * free_arguments - this functions free memory allocated.
+ * @arg_array: the array of arguments.
+ * @arguments: the line of arguments.
  */
-
-void execute(char **arg_array, char *str, char **av, int count)
+void free_arguments(char ***arg_array, char **arguments)
 {
-	int pid = 0;
-	int wstatus; /* store status return signal */
-	char *filepath, *notfound = "command not found";
-	struct stat st;
 
-	pid = fork();
-	if (pid == -1)
-		check_error(pid);
-	if (pid != 0)
-	{
-		wait(&wstatus);
-		if (WIFEXITED(wstatus))
-			WEXITSTATUS(wstatus);
-	}
-	if (pid == 0)
-	{
-		if (stat(arg_array[0], &st) == 0)
-		{
-			if (execve(arg_array[0], arg_array, environ) == -1)
-				check_error(-1);
-		}
-		else
-		{
-			filepath = findpath(arg_array[0]);
-			if (_strcmp(filepath, notfound) == 0)
-			{
-				notcommandfound(arg_array, av, count);
-				free(str);
-			}
-			else
-			{
-				if (execve(filepath, arg_array, environ) == -1)
-				{
-					freearray(arg_array);
-					check_error(-1);
-				}
-			}
-		}
-		kill(getpid(), SIGKILL);
-	}
-}
-
-/**
- * printnum - this function prints a number to stdoutput
- * @a: the number to print
- */
-
-void printnum(int a)
-{
-	int b;
-	char c, d, e;
-
-	if (a >= 10)
-	{
-		b = a % 10;
-		a = a / 10;
-		if (a >= 10)
-		{
-			printnum(a);
-			c = b + '0';
-			write(1, &c, 1);
-		}
-		else
-		{
-			d = a + '0';
-			write(1, &d, 1);
-			e = b + '0';
-			write(1, &e, 1);
-		}
-	}
-	else
-	{
-		d = a + '0';
-		write(1, &d, 1);
-	}
-}
-
-/**
- * create_nonInterac_arg_array - create arg_array for non interactive mode
- * @ac: arguments count
- * @av: argouments values
- * @arg_array: empty arg_array
- * Return: nothing
- */
-void create_nonInterac_arg_array(int ac, char **av, char ***arg_array)
-{
 	int i = 0;
 
-	*arg_array = malloc(ac * sizeof(char *));
-	for (i = 0; i < ac - 1; i++)
+	/* free array of arguments */
+	for (; *(*arg_array + i); i++)
 	{
-		(*arg_array)[i] = malloc((_strlen(av[i + 1]) + 1) * sizeof(char));
-		_strcpy((*arg_array)[i], av[i + 1]);
+		free(*(*arg_array + i));
+		*(*arg_array + i) = NULL;
 	}
-	(*arg_array)[i] = NULL;
+	free(*arg_array);
+	*arg_array = NULL;
+	/* free initial buffer allocated with get line */
+	if (*arguments != NULL)
+	{
+		free(*arguments);
+		*arguments = NULL;
+	}
+}
+
+/**
+ * create_memstrings - create memory allocation for new array elements
+ * @arguments: string literal
+ * @new_array: array of pointers
+ * @wrdc: number of words in the string
+ * Description: the array must have enough space for the strings
+ *
+ * Return: nothing
+ */
+void create_memstrings(char **arguments, char **new_array, int wrdc)
+{
+	int i = 0, bytes = 0;
+	int current_wrdc = wrdc;
+
+	while (*(*arguments + i))
+	{
+		if (*(*arguments + i) != ' ' && *(*arguments + i) != '\n')
+			bytes += 1;
+		if (*(*arguments + i) == ' ' || *(*arguments + i) == '\n' ||
+			*(*arguments + (i + 1)) == '\0')
+		{
+			if (bytes > 0)
+			{
+				new_array[wrdc - current_wrdc] = malloc(sizeof(char) * (bytes + 1));
+				new_array[wrdc - current_wrdc][bytes] = '\0';
+				if (new_array[wrdc - current_wrdc] == NULL)
+				{
+					perror("Error");
+					exit(1);
+					/* Free previous allocated memory if fails*/
+				}
+				bytes = 0;
+				current_wrdc--;
+			}
+		}
+		i++;
+	}
+}
+
+/**
+ * copybytes_memstrings - copy bytes from string to array
+ * @arguments: string literal
+ * @new_array: array of pointers
+ * @wrdc: number of words in the string
+ * Description: the array must have enough space for the strings
+ * to be copied
+ *
+ * Return: nothing
+ */
+void copybytes_memstrings(char **arguments, char **new_array, int wrdc)
+{
+	int i = 0, bytes = 0;
+	int current_wrdc = wrdc;
+
+	while (*(*arguments + i))
+	{
+		if (*(*arguments + i) != ' ' && *(*arguments + i) != '\n')
+		{
+			new_array[wrdc - current_wrdc][bytes] = *(*arguments + i);
+			bytes++;
+		}
+		if (*(*arguments + i) == ' ' || *(*arguments + i) == '\n' ||
+			*(*arguments + (i + 1)) == '\0')
+		{
+			if (bytes > 0)
+			{
+				bytes = 0;
+				current_wrdc--;
+			}
+		}
+		i++;
+	}
+}
+
+/**
+ * splitter - split a string into an array of strings.
+ * @arguments: string to split.
+ * @arg_array: empty array of arguments
+ * @wrdc: number of words in the string.
+ *
+ * Return: nothing
+ */
+void splitter(char **arguments, char ***arg_array, int wrdc)
+{
+	char **new_array = NULL;
+
+	new_array = malloc(sizeof(new_array) * (wrdc + 1));
+	new_array[wrdc] = NULL;
+	if (new_array == NULL)
+	{
+		perror("Error");
+		exit(1);
+	}
+	/* allocate memory for strings */
+	create_memstrings(&(*arguments), &(*new_array), wrdc);
+	/* copy bytes to new memory */
+	copybytes_memstrings(&(*arguments), &(*new_array), wrdc);
+	/* asign new array to arg_array */
+	*arg_array = new_array;
+}
+
+/**
+ * get_arguments - convert strings literals to an array
+ * @arguments: string literal
+ * @arg_array: empty array of arguments
+ *
+ * Return: nothing
+ */
+int get_arguments(char **arguments, char ***arg_array)
+{
+	int wrdc = 0;
+	int buffer_status = -1;
+
+	wrdc = wrdcounter(*arguments);
+	if (wrdc != 0)
+	{
+		splitter(&(*arguments), &(*arg_array), wrdc);
+		buffer_status = 0;
+	}
+	return (buffer_status);
 }
