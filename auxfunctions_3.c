@@ -15,12 +15,25 @@ void run_command(char ***arg_array, int glcount, char **av, char **environ)
 	int file_status = 0;
 
 	if (stringcomp((*arg_array)[0], "env") == 1)
-		envprint(environ);
+	{
+		if (environ != NULL)
+			envprint(environ);
+		else
+		{
+			notfoundfunc(*arg_array, glcount, av);
+			return;
+		}
+	}
 	else
 	{
 		file_status = check_file((*arg_array)[0]);
 		if (file_status != 0)
 		{
+			if (environ == NULL)
+			{
+				notfoundfunc(*arg_array, glcount, av);
+				return;
+			}
 			if (file_status == -2)
 			{
 				notfoundfunc(*arg_array, glcount, av);
