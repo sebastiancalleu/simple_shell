@@ -30,8 +30,10 @@ void splitter(char *str, int wrdc, char **av, int count)
 	array[a] = NULL;
 	if (_strcmp(array[0], exitstr) == 0)
 		exitshell(array, str, exitstate);
-	if (_strcmp(array[0], envstr) == 0)
-		envprint();
+		/*
+	* if (_strcmp(array[0], envstr) == 0)
+		* envprint();
+		*/
 	execute(array, str, av, count);
 	for (a = 0; a < wrdc; a++)
 		free(array[a]);

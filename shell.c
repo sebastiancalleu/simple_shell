@@ -14,7 +14,6 @@ int main(int ac, char **av)
 	int characters = 0;
 	int a = 0, count = 0;
 
-	signal(SIGINT, sigint_handler);
 	if (ac > 1)
 	{
 		create_nonInterac_arg_array(ac, av, &arg_array);
@@ -26,6 +25,7 @@ int main(int ac, char **av)
 	{
 		while (characters != -1)
 		{
+			signal(SIGINT, sigint_handler);
 			if (isatty(STDIN_FILENO) == 1)
 				write(1, "$ ", 2);
 			count++;
