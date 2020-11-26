@@ -13,7 +13,7 @@
 
 /*shell*/
 void shell_loop(int *, int *, char *, char **,
-                size_t *, int *, char ***, char ***, char **);
+		size_t *, int *, char ***, char ***, char **);
 
 /*auxfunctions_1*/
 char *_strcat(char *, char *);
