@@ -5,6 +5,8 @@
  * execute - this function execute commands.
  * @arg_array: the strings of arrays.
  * @str: the buffer line.
+ * @av: arguments array.
+ * @count: cycle count.
  */
 
 void execute(char **arg_array, char *str, char **av, int count)
