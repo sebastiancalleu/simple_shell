@@ -44,6 +44,5 @@ void envprint(void)
 	for (a = 0; environ[a] != NULL; a++)
 	{
 		write(STDOUT_FILENO, environ[a], _strlen(environ[a]));
-		write(1, "\n", 1);
 	}
 }
