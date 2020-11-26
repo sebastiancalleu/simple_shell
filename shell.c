@@ -21,7 +21,7 @@ int main(int ac, char **av, char **environ)
 		shell_loop(&characters, &glcount, promt_sign, &arguments, &arguments_size,
 				   &exit, &av, &arg_array, environ);
 		if (exit == 0 || characters == EOF)
-			check_error(write(STDOUT_FILENO, "\n", 1));
+			write(STDOUT_FILENO, "\n", 1);
 		if (exit == -1)
 			exit = 0;
 	}

@@ -11,7 +11,7 @@
 void run_command(char ***arg_array, int glcount, char **av, char **environ)
 {
 	int pid = 0;
-	int wstatus; /* store status return signal */
+	int wstatus = 0; /* store status return signal */
 	int file_status = 0;
 
 	if (stringcomp((*arg_array)[0], "env") == 1)
@@ -42,7 +42,10 @@ void run_command(char ***arg_array, int glcount, char **av, char **environ)
 				WEXITSTATUS(wstatus);
 		}
 		if (pid == 0)
+		{
 			execve((*arg_array)[0], *arg_array, environ);
+			kill(getpid(), SIGKILL);
+		}
 	}
 }
 

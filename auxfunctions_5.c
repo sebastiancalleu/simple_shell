@@ -79,6 +79,7 @@ int check_exit(char *arguments)
  */
 void check_error(int error)
 {
+
 	if (error == -1)
 	{
 		perror("Error");
